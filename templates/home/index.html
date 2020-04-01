@@ -1,0 +1,135 @@
+{% extends 'base.html' %} {% block title %} home {% endblock title %}
+
+
+   {% block body %}
+      <style>
+.pagination {
+  margin-top:40px;
+      margin-left: auto;
+    margin-right: auto;
+    width: 18em
+}
+.pagination a {
+  color: black;
+  float: left;
+  padding: 8px 16px;
+  text-decoration: none;
+  transition: background-color .3s;
+  border: 1px solid #ddd;
+  margin: 0 4px;
+}
+
+.pagination a.active {
+  background-color: #4CAF50;
+  color: white;
+  border: 1px solid #4CAF50;
+}
+
+.pagination a:hover:not(.active) {background-color: #ddd;}
+</style>
+{% comment %} {% load static %}
+<a href="{% static 'blog/static.txt' %}">click me</a> {% endcomment %}
+
+    <main role="main">
+
+      <!-- Main jumbotron for a primary marketing message or call to action -->
+      <div class="jumbotron"  style="background-color:#421414;color:white">
+        <div class="container">
+          <h1 class="display-3">Cramm's world!</h1>
+          <p>This is a template for a simple marketing or informational website. It includes a large callout called a jumbotron and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
+          {% comment %} <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more &raquo;</a></p> {% endcomment %}
+        </div>
+      </div>
+
+      <div class="container">
+        <!-- Example row of columns -->
+        <div class="row">
+          <div class="col-md-4">
+            <h2>Heading</h2>
+            <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+            <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
+          </div>
+          <div class="col-md-4">
+            <h2>Heading</h2>
+            <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+            <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
+          </div>
+          <div class="col-md-4">
+            <h2>Heading</h2>
+            <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
+            <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
+          </div>
+        </div>
+
+        <hr>
+
+      </div> <!-- /container -->
+
+    </main>
+
+{% comment %} <div class="card container">
+  <div class="card-body">
+    <h5 class="card-title">Card title</h5>
+    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+    <a href="#" class="btn btn-primary">Go somewhere</a>
+  </div>
+</div> {% endcomment %}
+   {% for post in allPosts %}
+<div class="card container mt-5">
+  <div class="card-body">
+    <h5 class="card-title">{{ post.title }}</h5>
+    <h6 class="card-subtitle mb-2 text-muted">{{ post.timeStamp }}</h6>
+    <p class="card-text">{{ post.slug }}</p>
+    <p class="card-text">{{ post.content | truncatechars:500 }}</p>
+    <a href="/blog/{{ post.slug }}" class="card-link">Card link</a>
+  </div>
+</div>
+
+{% comment %} 
+<div class="row">
+  <div class="col-sm-6">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">{{ post.title }}</h5>
+    <h6 class="card-subtitle mb-2 text-muted">{{ post.timeStamp }}</h6>
+    <p class="card-text">{{ post.slug }}</p>
+        <p class="card-text">{{ post.content | truncatechars:500 }}</p>
+           <a href="/blog/{{ post.slug }}" class="card-link">Card link</a>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-6">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">{{ post.title }}</h5>
+    <h6 class="card-subtitle mb-2 text-muted">{{ post.timeStamp }}</h6>
+    <p class="card-text">{{ post.slug }}</p>
+        <p class="card-text">{{ post.content | truncatechars:500 }}</p>
+           <a href="/blog/{{ post.slug }}" class="card-link">Card link</a>
+      </div>
+    </div>
+  </div>
+</div> {% endcomment %}
+
+{% endfor %}
+  <div class="pagination" style="">
+  {% if allPosts.has_previous %}
+  <a href="?page={{ allPosts.previous_page_number }}" style="padding:10px">&laquo;</a>
+    {% endif %}
+    {% comment %} {% for pg in allPosts.paginator.page_range %}
+    {% if allPosts.number == pg %}
+    <a style="padding:10px" class="active"  href="?page={{pg}}">{{pg}}</a>
+    {% endif %} {% endcomment %}
+    {% for pg in allPosts.paginator.page_range %}
+    {% if allPosts.number == pg %}
+    <a style="padding:10px" class="active" href="?page={{pg}}">{{pg}}</a>
+    {% elif pg > allPosts.number|add:'-3' and pg < allPosts.number|add:'3' %}
+    <a style="padding:10px" class="active" href="?page={{pg}}">{{pg}}</a>
+    {% endif %}
+    {% endfor %}
+    {% if allPosts.has_next %}
+    <a style="padding:10px" href="?page={{allPosts.next_page_number}}">&raquo;</a>
+        {% endif %}
+  </div>
+
+   {% endblock body %}
